@@ -109,3 +109,65 @@ function genMap() {
         }
     }
 }
+
+// This function generates a maze using a randomized Prim's algorithm.
+function defineMaze() {
+    var isComp = false;
+    var move = false;
+    var cellsVisited = 1;
+    var numLoops = 0;
+    var maxLoops = 0;
+    var pos = {
+        x: 0,
+        y: 0
+    };
+    var numCells = width * height;
+
+    // Continue generating the maze until it's complete.
+    while (!isComp) {
+        move = false;
+        // Mark the current cell as visited.
+        mazeMap[pos.x][pos.y].visited = true;
+
+        if (numLoops >= maxLoops) {
+            // Shuffle the directions and reset loop counters.
+            shuffle(dirs);
+            maxLoops = Math.round(rand(height / 8));
+            numLoops = 0;
+        }
+        numLoops++;
+
+        // Iterate through the shuffled directions.
+        for (index = 0; index < dirs.length; index++) {
+            var direction = dirs[index];
+            var nx = pos.x + modDir[direction].x;
+            var ny = pos.y + modDir[direction].y;
+
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                // Check if the neighboring cell is unvisited.
+                if (!mazeMap[nx][ny].visited) {
+                    // Carve a path through walls from the current cell to the neighboring cell.
+                    mazeMap[pos.x][pos.y][direction] = true;
+                    mazeMap[nx][ny][modDir[direction].o] = true;
+
+                    // Set the neighboring cell as the current cell's prior visited.
+                    mazeMap[nx][ny].priorPos = pos;
+                    // Update the current cell's position to the newly visited location.
+                    pos = {
+                        x: nx,
+                        y: ny
+                    };
+                    cellsVisited++;
+                    // Recursively call this method on the next cell.
+                    move = true;
+                    break;
+                }
+            }
+        }
+
+        // Check if the maze generation is complete (all cells visited).
+        if (cellsVisited === numCells) {
+            isComp = true;
+        }
+    }
+}
