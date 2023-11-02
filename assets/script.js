@@ -334,3 +334,94 @@ function DrawMaze(Maze, ctx, cellsize, endSprite = null) {
     }
 }
 
+
+// This function clears the canvas by specifying its size and using 'clearRect' to erase its content.
+function clear() {
+    var canvasSize = cellSize * map.length;
+    ctx.clearRect(0, 0, canvasSize, canvasSize);
+}
+
+// Determine which method to use for drawing the end point (end flag) based on the provided 'endSprite'.
+if (endSprite != null) {
+    drawEndMethod = drawEndSprite;
+} else {
+    drawEndMethod = drawEndFlag;
+}
+clear();  // Clear the canvas.
+drawMap();  // Draw the maze.
+drawEndMethod();  // Draw the end point.
+
+// Constructor function 'Player' for creating a player object within the maze.
+function Player(maze, c, _cellsize, onComplete, sprite = null) {
+    var ctx = c.getContext("2d");
+    var drawSprite;
+    var moves = 0;
+    drawSprite = drawSpriteCircle;
+
+    // Use an image sprite for drawing if provided, else use a circle.
+    if (sprite != null) {
+        drawSprite = drawSpriteImg;
+    }
+
+    var player = this;
+    var map = maze.map();
+    var cellCoords = {
+        x: maze.startCoord().x,
+        y: maze.startCoord().y
+    };
+    var cellSize = _cellsize;
+    var halfCellSize = cellSize / 2;
+
+    // This function allows redrawing the player with a different cell size.
+    this.redrawPlayer = function(_cellsize) {
+        cellSize = _cellsize;
+        drawSpriteImg(cellCoords);
+    };
+
+    // Draw the player as a colored circle at the specified coordinates.
+    function drawSpriteCircle(coord) {
+        // Draw a yellow circle representing the player.
+        ctx.beginPath();
+        ctx.fillStyle = "yellow";
+        ctx.arc(
+            (coord.x + 1) * cellSize - halfCellSize,
+            (coord.y + 1) * cellSize - halfCellSize,
+            halfCellSize - 2,
+            0,
+            2 * Math.PI
+        );
+        ctx.fill();
+
+        // Check if the player has reached the end point and trigger 'onComplete' callback.
+        if (coord.x === maze.endCoord().x && coord.y === maze.endCoord().y) {
+            onComplete(moves);
+            player.unbindKeyDown();
+        }
+    }
+
+    // Draw the player using an image sprite at the specified coordinates.
+    function drawSpriteImg(coord) {
+        var offsetLeft = cellSize / 50;
+        var offsetRight = cellSize / 25;
+
+        // Draw the player using the provided image sprite.
+        ctx.drawImage(
+            sprite,
+            0,
+            0,
+            sprite.width,
+            sprite.height,
+            coord.x * cellSize + offsetLeft,
+            coord.y * cellSize + offsetLeft,
+            cellSize - offsetRight,
+            cellSize - offsetRight
+        );
+
+        // Check if the player has reached the end point and trigger 'onComplete' callback.
+        if (coord.x === maze.endCoord().x && coord.y === maze.endCoord().y) {
+            onComplete(moves);
+            player.unbindKeyDown();
+        }
+    }
+}
+
