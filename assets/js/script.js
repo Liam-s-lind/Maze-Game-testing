@@ -531,4 +531,25 @@ this.bindKeyDown = function() {
     });
 };
 
+// This function unbinds keyboard and swipe events to stop handling player input.
+this.unbindKeyDown = function() {
+    window.removeEventListener("keydown", check, false);
+    $("#view").swipe("destroy");
+};
+
+// Draw the player sprite at the maze's starting coordinates.
+drawSprite(maze.startCoord());
+
+// Bind keyboard and swipe events for player input.
+this.bindKeyDown();
+
+// Obtain a reference to the 'mazeCanvas' element and create a 2D rendering context for drawing on it.
+var mazeCanvas = document.getElementById("mazeCanvas");
+var ctx = mazeCanvas.getContext("2d");
+var sprite; 
+var finishSprite;
+var maze, draw, player;
+var cellSize;
+var difficulty;
+
 
