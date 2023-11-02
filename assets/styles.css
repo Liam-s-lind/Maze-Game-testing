@@ -13,7 +13,7 @@ html, body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
     font-family: 'Poppins', sans-serif;
 }
 
@@ -42,7 +42,7 @@ html, body {
 /* Styling for input and select elements */
 input, select {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.30);
+    background-color: rgba(0, 0, 0, 0.40);
     height: 45px;
     width: 150px;
     padding: 10px;
@@ -99,4 +99,65 @@ input:focus, select:focus {
     right: 0;
     background-color: rgba(0, 0, 0, 0.30);
     z-index: 1;
+}
+
+/* Styling for a message displayed within the message container */
+#Message-Container #message {
+    width: 300px;
+    height: 300px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+}
+
+/* Styling for the page, menu, and view elements */
+#page {
+	text-align: center;
+	height: auto;
+	width: auto;
+	margin: auto;
+}
+
+#page #menu {
+    margin: auto;
+    padding: 10px;
+    height: 65px;
+    box-sizing: border-box;
+}
+
+#page #menu h1 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 3.2rem;
+}
+
+#page #view {
+    position: absolute;
+    top: 65px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+}
+
+/* Styling for a border with rounded corners */
+.border {
+    border: 10px black solid;
+    border-radius: 10px;
+}
+
+/* Adjusting the margin from the top for the 'instructions' element */
+#instructions {
+    margin-top: 430px;
+}
+
+/* Responsive styling for screens with a maximum width of 400px */
+@media only screen and (max-width: 400px) {
+    input, select {
+        width: 120px; /* Adjust the width of input and select elements to 120px */
+    }
 }
