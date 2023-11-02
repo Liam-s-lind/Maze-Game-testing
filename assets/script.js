@@ -74,3 +74,38 @@ function Maze(Width, Height) {
         w: { y: 0, x: -1, o: "e" }
     };
 }
+
+// This method returns the maze map, which is a 2D array representing the maze's structure.
+this.map = function() {
+    return mazeMap;
+};
+
+// This method returns the starting coordinates of the maze.
+this.startCoord = function() {
+    return startCoord;
+};
+
+// This method returns the ending coordinates of the maze.
+this.endCoord = function() {
+    return endCoord;
+};
+
+// This function generates the maze structure. It initializes the 'mazeMap' array
+// with cells that have properties to represent walls (n, s, e, w), visited status,
+// and prior position.
+function genMap() {
+    mazeMap = new Array(height);
+    for (y = 0; y < height; y++) {
+        mazeMap[y] = new Array(width);
+        for (x = 0; x < width; ++x) {
+            mazeMap[y][x] = {
+                n: false,    // Indicates whether there's a wall to the north.
+                s: false,    // Indicates whether there's a wall to the south.
+                e: false,    // Indicates whether there's a wall to the east.
+                w: false,    // Indicates whether there's a wall to the west.
+                visited: false,  // Indicates whether this cell has been visited.
+                priorPos: null  // Stores the prior position when exploring the maze.
+            };
+        }
+    }
+}
