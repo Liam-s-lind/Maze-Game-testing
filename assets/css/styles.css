@@ -48,7 +48,7 @@ input, select {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    color: white;
+    color: rgb(0, 0, 0);
     display: inline-block;
     font-size: 15px;
     text-align: center;
