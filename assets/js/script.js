@@ -46,15 +46,16 @@ function changeBrightness(factor, sprite) {
 // Display a victory message with the number of moves taken.
 function displayVictoryMess(moves) {
     document.getElementById("moves").innerHTML = "You Moved " + moves + " Steps.";
-    toggleVisablity("Message-Container");
+    toggleVisibility("Message-Container");
 }
 
 // Toggle the visibility of an element with the given 'id'.
-function toggleVisablity(id) {
-    if (document.getElementById(id).style.visibility == "visible") {
-        document.getElementById(id).style.visibility = "hidden";
+function toggleVisibility(id) {
+    var element = document.getElementById(id);
+    if (element.style.visibility === "visible") {
+        element.style.visibility = "hidden";
     } else {
-        document.getElementById(id).style.visibility = "visible";
+        element.style.visibility = "visible";
     }
 }
 
@@ -73,110 +74,127 @@ function Maze(Width, Height) {
         e: { y: 0, x: 1, o: "w" },
         w: { y: 0, x: -1, o: "e" }
     };
-}
 
-// This method returns the maze map, which is a 2D array representing the maze's structure.
-this.map = function() {
-    return mazeMap;
-};
+    // This method returns the maze map, which is a 2D array representing the maze's structure.
+    this.map = function() {
+        return mazeMap;
+    };
 
-// This method returns the starting coordinates of the maze.
-this.startCoord = function() {
-    return startCoord;
-};
+    // This method returns the starting coordinates of the maze.
+    this.startCoord = function() {
+        return startCoord;
+    };
 
-// This method returns the ending coordinates of the maze.
-this.endCoord = function() {
-    return endCoord;
-};
+    // This method returns the ending coordinates of the maze.
+    this.endCoord = function() {
+        return endCoord;
+    };
 
-// This function generates the maze structure. It initializes the 'mazeMap' array
-// with cells that have properties to represent walls (n, s, e, w), visited status,
-// and prior position.
-function genMap() {
-    mazeMap = new Array(height);
-    for (y = 0; y < height; y++) {
-        mazeMap[y] = new Array(width);
-        for (x = 0; x < width; ++x) {
-            mazeMap[y][x] = {
-                n: false,    // Indicates whether there's a wall to the north.
-                s: false,    // Indicates whether there's a wall to the south.
-                e: false,    // Indicates whether there's a wall to the east.
-                w: false,    // Indicates whether there's a wall to the west.
-                visited: false,  // Indicates whether this cell has been visited.
-                priorPos: null  // Stores the prior position when exploring the maze.
-            };
+    // This function generates the maze structure. It initializes the 'mazeMap' array
+    // with cells that have properties to represent walls (n, s, e, w), visited status,
+    // and prior position.
+    function genMap() {
+        mazeMap = new Array(height);
+        for (let y = 0; y < height; y++) {
+            mazeMap[y] = new Array(width);
+            for (let x = 0; x < width; ++x) {
+                mazeMap[y][x] = {
+                    n: false,    // Indicates whether there's a wall to the north.
+                    s: false,    // Indicates whether there's a wall to the south.
+                    e: false,    // Indicates whether there's a wall to the east.
+                    w: false,    // Indicates whether there's a wall to the west.
+                    visited: false,  // Indicates whether this cell has been visited.
+                    priorPos: null  // Stores the prior position when exploring the maze.
+                };
+            }
         }
     }
-}
 
-// This function generates a maze using a randomized Prim's algorithm.
-function defineMaze() {
-    var isComp = false;
-    var move = false;
-    var cellsVisited = 1;
-    var numLoops = 0;
-    var maxLoops = 0;
-    var pos = {
-        x: 0,
-        y: 0
-    };
-    var numCells = width * height;
+    // This function generates a maze using a randomized Prim's algorithm.
+    function defineMaze() {
+        var isComp = false;
+        var move = false;
+        var cellsVisited = 1;
+        var numLoops = 0;
+        var maxLoops = 0;
+        var pos = {
+            x: 0,
+            y: 0
+        };
+        var numCells = width * height;
 
-    // Continue generating the maze until it's complete.
-    while (!isComp) {
-        move = false;
-        // Mark the current cell as visited.
-        mazeMap[pos.x][pos.y].visited = true;
+        // Continue generating the maze until it's complete.
+        while (!isComp) {
+            move = false;
+            // Mark the current cell as visited.
+            mazeMap[pos.x][pos.y].visited = true;
 
-        if (numLoops >= maxLoops) {
-            // Shuffle the directions and reset loop counters.
-            shuffle(dirs);
-            maxLoops = Math.round(rand(height / 8));
-            numLoops = 0;
-        }
-        numLoops++;
+            if (numLoops >= maxLoops) {
+                // Shuffle the directions and reset loop counters.
+                shuffle(dirs);
+                maxLoops = Math.round(rand(height / 8));
+                numLoops = 0;
+            }
+            numLoops++;
 
-        // Iterate through the shuffled directions.
-        for (index = 0; index < dirs.length; index++) {
-            var direction = dirs[index];
-            var nx = pos.x + modDir[direction].x;
-            var ny = pos.y + modDir[direction].y;
+            // Iterate through the shuffled directions.
+            for (let index = 0; index < dirs.length; index++) {
+                var direction = dirs[index];
+                var nx = pos.x + modDir[direction].x;
+                var ny = pos.y + modDir[direction].y;
 
-            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-                // Check if the neighboring cell is unvisited.
-                if (!mazeMap[nx][ny].visited) {
-                    // Carve a path through walls from the current cell to the neighboring cell.
-                    mazeMap[pos.x][pos.y][direction] = true;
-                    mazeMap[nx][ny][modDir[direction].o] = true;
+                if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                    // Check if the neighboring cell is unvisited.
+                    if (!mazeMap[nx][ny].visited) {
+                        // Carve a path through walls from the current cell to the neighboring cell.
+                        mazeMap[pos.x][pos.y][direction] = true;
+                        mazeMap[nx][ny][modDir[direction].o] = true;
 
-                    // Set the neighboring cell as the current cell's prior visited.
-                    mazeMap[nx][ny].priorPos = pos;
-                    // Update the current cell's position to the newly visited location.
-                    pos = {
-                        x: nx,
-                        y: ny
-                    };
-                    cellsVisited++;
-                    // Recursively call this method on the next cell.
-                    move = true;
-                    break;
+                        // Set the neighboring cell as the current cell's prior visited.
+                        mazeMap[nx][ny].priorPos = pos;
+                        // Update the current cell's position to the newly visited location.
+                        pos = {
+                            x: nx,
+                            y: ny
+                        };
+                        cellsVisited++;
+                        // Recursively call this method on the next cell.
+                        move = true;
+                        break;
+                    }
                 }
+            }
+
+            // Check if the maze generation is complete all cells are visited.
+            if (cellsVisited === numCells) {
+                isComp = true;
             }
         }
 
-        // Check if the maze generation is complete all cells are visited.
-        if (cellsVisited === numCells) {
-            isComp = true;
+        // If 'move' is still false, it means that the algorithm failed to find a valid direction to move.
+        // In this case, move the current position back to the prior cell and recall the method.
+        if (!move) {
+            pos = mazeMap[pos.x][pos.y].priorPos;
         }
     }
+
+    // Initialize the maze generation.
+    function init() {
+        genMap();
+        defineMaze();
+
+        // Set random start and end positions for the maze.
+        startCoord = { x: rand(width), y: rand(height) };
+        endCoord = { x: rand(width), y: rand(height) };
+
+        // Ensure that the start and end positions are not the same.
+        while (startCoord.x === endCoord.x && startCoord.y === endCoord.y) {
+            endCoord = { x: rand(width), y: rand(height) };
+        }
+    }
+    init();
 }
 
-// If 'move' is still false, it means that the algorithm failed to find a valid direction to move.
-// In this case, move the current position back to the prior cell and recall the method.
-if (!move) {
-    pos = mazeMap[pos.x][pos.y].priorPos;
-}
 
 // Check if the generation of the maze is complete.
 if (numCells === cellsVisited) {
