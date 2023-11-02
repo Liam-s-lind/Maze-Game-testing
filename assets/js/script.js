@@ -249,6 +249,7 @@ function DrawMaze(Maze, ctx, cellsize, endSprite = null) {
     function drawCell(xCord, yCord, cell) {
         var x = xCord * cellSize;
         var y = yCord * cellSize;
+        ctx.lineWidth =3;
 
         // Draw walls based on cell properties (n, s, e, w).
         if (cell.n == false) {
