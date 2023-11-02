@@ -425,3 +425,110 @@ function Player(maze, c, _cellsize, onComplete, sprite = null) {
     }
 }
 
+// This function removes a sprite at the specified coordinates by clearing the corresponding area on the canvas.
+function removeSprite(coord) {
+    var offsetLeft = cellSize / 50;
+    var offsetRight = cellSize / 25;
+    ctx.clearRect(
+        coord.x * cellSize + offsetLeft,
+        coord.y * cellSize + offsetLeft,
+        cellSize - offsetRight,
+        cellSize - offsetRight
+    );
+}
+
+// This function handles keyboard and swipe input to move the player within the maze.
+function check(e) {
+    var cell = map[cellCoords.x][cellCoords.y];
+    moves++;
+    switch (e.keyCode) {
+        case 65:
+        case 37: // west
+            if (cell.w == true) {
+                removeSprite(cellCoords);
+                cellCoords = {
+                    x: cellCoords.x - 1,
+                    y: cellCoords.y
+                };
+                drawSprite(cellCoords);
+            }
+            break;
+        case 87:
+        case 38: // north
+            if (cell.n == true) {
+                removeSprite(cellCoords);
+                cellCoords = {
+                    x: cellCoords.x,
+                    y: cellCoords.y - 1
+                };
+                drawSprite(cellCoords);
+            }
+            break;
+        case 68:
+        case 39: // east
+            if (cell.e == true) {
+                removeSprite(cellCoords);
+                cellCoords = {
+                    x: cellCoords.x + 1,
+                    y: cellCoords.y
+                };
+                drawSprite(cellCoords);
+            }
+            break;
+        case 83:
+        case 40: // south
+            if (cell.s == true) {
+                removeSprite(cellCoords);
+                cellCoords = {
+                    x: cellCoords.x,
+                    y: cellCoords.y + 1
+                };
+                drawSprite(cellCoords);
+            }
+            break;
+    }
+}
+
+// This function binds keyboard and swipe events to move the player within the maze.
+this.bindKeyDown = function() {
+    // Bind the 'keydown' event to the 'check' function to handle keyboard input.
+    window.addEventListener("keydown", check, false);
+
+    // Bind swipe events to handle touch-based input for moving the player.
+    $("#view").swipe({
+        swipe: function (
+            event,
+            direction,
+            distance,
+            duration,
+            fingerCount,
+            fingerData
+        ) {
+            switch (direction) {
+                case "up":
+                    check({
+                        keyCode: 38
+                    });
+                    break;
+                case "down":
+                    check({
+                        keyCode: 40
+                    });
+                    break;
+                case "left":
+                    check({
+                        keyCode: 37
+                    });
+                    break;
+                case "right":
+                    check({
+                        keyCode: 39
+                    });
+                    break;
+            }
+        },
+        threshold: 0
+    });
+};
+
+
