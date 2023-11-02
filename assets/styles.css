@@ -58,12 +58,12 @@ input, select {
 
 /* Hover effect for input and select elements */
 input:hover, select:hover {
-	background-color: rgba(0, 0, 0, 0.70);
+	background-color: rgba(255, 0, 0, 0.7);
 }
 
 /* Active (click) effect for input and select elements */
 input:active, select:active {
-	background-color: black; /* Even darker background on click */
+	background-color: rgb(125, 0, 0); /* Even darker background on click */
 }
 
 /* Remove focus outline on input and select elements */
