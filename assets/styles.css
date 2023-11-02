@@ -71,3 +71,32 @@ input:focus, select:focus {
 	outline: none;
 }
 
+/* Styling for a custom select element */
+.custom-select {
+	display: inline-block; /* Display the custom select element as an inline block */
+}
+
+/* Styling for a custom select element */
+.custom-select select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: 125px center;
+}
+
+/* Styling for a message container overlay */
+#Message-Container {
+    visibility: hidden;
+    color: white;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.30);
+    z-index: 1;
+}
