@@ -165,9 +165,67 @@ function defineMaze() {
             }
         }
 
-        // Check if the maze generation is complete (all cells visited).
+        // Check if the maze generation is complete all cells are visited.
         if (cellsVisited === numCells) {
             isComp = true;
         }
+    }
+}
+
+// If 'move' is still false, it means that the algorithm failed to find a valid direction to move.
+// In this case, move the current position back to the prior cell and recall the method.
+if (!move) {
+    pos = mazeMap[pos.x][pos.y].priorPos;
+}
+
+// Check if the generation of the maze is complete.
+if (numCells === cellsVisited) {
+    isComp = true;
+}
+
+// This function defines the start and end coordinates for the maze.
+function defineStartEnd() {
+    // Generates a random number (0, 1, 2, or 3) to choose a starting and ending position.
+    switch (rand(4)) {
+        case 0:
+            startCoord = {
+                x: 0,
+                y: 0
+            };
+            endCoord = {
+                x: height - 1,
+                y: width - 1
+            };
+            break;
+        case 1:
+            startCoord = {
+                x: 0,
+                y: width - 1
+            };
+            endCoord = {
+                x: height - 1,
+                y: 0
+            };
+            break;
+        case 2:
+            startCoord = {
+                x: height - 1,
+                y: 0
+            };
+            endCoord = {
+                x: 0,
+                y: width - 1
+            };
+            break;
+        case 3:
+            startCoord = {
+                x: height - 1,
+                y: width - 1
+            };
+            endCoord = {
+                x: 0,
+                y: 0
+            };
+            break;
     }
 }
