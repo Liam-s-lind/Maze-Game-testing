@@ -1,6 +1,9 @@
+/* Importing the 'Poppins' font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+/* Resetting some default styles and setting global styles */
 html, body {
+    /* Make the HTML and body fill the entire viewport */
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -14,10 +17,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* Styling for a specific element with the 'view' ID */
 #view {
     margin-top: 30px;
 }
 
+/* Styling for an element with the 'mazeContainer' ID */
 #mazeContainer {
     top: 15px;
     opacity: 0;
@@ -26,6 +31,7 @@ html, body {
     border-radius: 10px;
 }
 
+/* Styling for the element with 'mazeCanvas' ID inside 'mazeContainer' */
 #mazeContainer #mazeCanvas {
     margin: 0;
     display: block;
@@ -33,6 +39,7 @@ html, body {
     height: 400px;
 }
 
+/* Styling for input and select elements */
 input, select {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.30);
@@ -48,3 +55,19 @@ input, select {
     text-decoration: none;
     appearance: none;
 }
+
+/* Hover effect for input and select elements */
+input:hover, select:hover {
+	background-color: rgba(0, 0, 0, 0.70);
+}
+
+/* Active (click) effect for input and select elements */
+input:active, select:active {
+	background-color: black; /* Even darker background on click */
+}
+
+/* Remove focus outline on input and select elements */
+input:focus, select:focus {
+	outline: none;
+}
+
